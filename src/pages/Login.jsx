@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import '../App.css';
 import { player } from '../redux/actions/player';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   state = {
@@ -76,6 +77,12 @@ class Login extends Component {
             >
               play
             </button>
+            <Link
+            to="/settings"
+            data-testid="btn-settings"
+            >
+              Configurações
+            </Link>
           </form>
         </header>
       </div>

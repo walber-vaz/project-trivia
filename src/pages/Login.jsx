@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { func } from 'prop-types';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
 import { player } from '../redux/actions/player';
-import { Link } from 'react-router-dom';
 
 class Login extends Component {
   state = {
@@ -14,7 +14,14 @@ class Login extends Component {
     isDisabled: true,
   };
 
-  // componentDidMount() {}
+  fetchToken = async () => {
+    const request = await fetch('https://opentdb.com/api_token.php?command=request');
+    const json = await request.json();
+    localStorage.setItem('token', json.token);
+  };
+
+  // componentDidMount() {
+  // }
 
   handleChange = ({ target: { value, name } }) => {
     this.setState({
@@ -34,10 +41,16 @@ class Login extends Component {
     return this.setState({ isDisabled: true });
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     const { dispatch } = this.props;
+    const { history } = this.props;
     const { name } = this.state;
     dispatch(player(name));
+    await this.fetchToken();
+    const token = localStorage.getItem('token');
+    if (token) {
+      history.push('/game');
+    }
   };
 
   render() {
@@ -78,8 +91,8 @@ class Login extends Component {
               play
             </button>
             <Link
-            to="/settings"
-            data-testid="btn-settings"
+              to="/settings"
+              data-testid="btn-settings"
             >
               Configurações
             </Link>
@@ -92,9 +105,9 @@ class Login extends Component {
 
 Login.propTypes = {
   dispatch: func.isRequired,
-  // history: shape({
-  //   push: func.isRequired,
-  // }).isRequired,
+  history: shape({
+    push: func.isRequired,
+  }).isRequired,
 };
 
 export default connect()(Login);

@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   img: '',
 };
 
-const loginReducer = (state = INITIAL_STATE, action) => {
+const login = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case LOGIN:
     return {
@@ -20,4 +20,4 @@ const loginReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default loginReducer;
+export default login;

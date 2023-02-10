@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { func } from 'prop-types';
+import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
-import { player } from '../redux/actions/player';
+import { fetchLogin } from '../redux/actions/login';
 
 class Login extends Component {
   state = {
@@ -13,15 +12,6 @@ class Login extends Component {
     email: '',
     isDisabled: true,
   };
-
-  fetchToken = async () => {
-    const request = await fetch('https://opentdb.com/api_token.php?command=request');
-    const json = await request.json();
-    localStorage.setItem('token', json.token);
-  };
-
-  // componentDidMount() {
-  // }
 
   handleChange = ({ target: { value, name } }) => {
     this.setState({
@@ -42,19 +32,15 @@ class Login extends Component {
   };
 
   handleClick = async () => {
-    const { dispatch } = this.props;
-    const { history } = this.props;
-    const { name } = this.state;
-    dispatch(player(name));
-    await this.fetchToken();
-    const token = localStorage.getItem('token');
-    if (token) {
-      history.push('/game');
-    }
+    const { name, email } = this.state;
+    const { dispatch, history } = this.props;
+    dispatch(fetchLogin(name, email));
+    history.push('/game');
   };
 
   render() {
     const { name, email, isDisabled } = this.state;
+    const { history } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -90,12 +76,13 @@ class Login extends Component {
             >
               play
             </button>
-            <Link
-              to="/settings"
+            <button
+              type="button"
               data-testid="btn-settings"
+              onClick={ () => history.push('/settings') }
             >
-              Configurações
-            </Link>
+              configurações
+            </button>
           </form>
         </header>
       </div>

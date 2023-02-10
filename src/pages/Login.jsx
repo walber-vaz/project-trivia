@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 
-import logo from '../trivia.png';
-import '../App.css';
 import { fetchLogin } from '../redux/actions/login';
 
 class Login extends Component {
@@ -31,7 +29,7 @@ class Login extends Component {
     return this.setState({ isDisabled: true });
   };
 
-  handleClick = async () => {
+  handleClick = () => {
     const { name, email } = this.state;
     const { dispatch, history } = this.props;
     dispatch(fetchLogin(name, email));
@@ -42,59 +40,47 @@ class Login extends Component {
     const { name, email, isDisabled } = this.state;
     const { history } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-          <p>SUA VEZ</p>
-          <form>
-            <label htmlFor="name">
-              Nome:
-              <input
-                type="text"
-                data-testid="input-player-name"
-                name="name"
-                onChange={ this.handleChange }
-                value={ name }
-              />
-            </label>
-            <label htmlFor="email">
-              Email:
-              <input
-                data-testid="input-gravatar-email"
-                type="email"
-                name="email"
-                onChange={ this.handleChange }
-                value={ email }
-              />
-            </label>
-            <button
-              type="button"
-              data-testid="btn-play"
-              name="isDisabled"
-              onClick={ this.handleClick }
-              disabled={ isDisabled }
-            >
-              play
-            </button>
-            <button
-              type="button"
-              data-testid="btn-settings"
-              onClick={ () => history.push('/settings') }
-            >
-              configurações
-            </button>
-          </form>
-        </header>
-      </div>
+      <>
+        <input
+          type="text"
+          data-testid="input-player-name"
+          name="name"
+          onChange={ this.handleChange }
+          value={ name }
+        />
+        <input
+          data-testid="input-gravatar-email"
+          type="email"
+          name="email"
+          onChange={ this.handleChange }
+          value={ email }
+        />
+        <button
+          type="button"
+          data-testid="btn-play"
+          name="isDisabled"
+          onClick={ this.handleClick }
+          disabled={ isDisabled }
+        >
+          Play
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
+        </button>
+      </>
     );
   }
 }
 
 Login.propTypes = {
-  dispatch: func.isRequired,
+  dispatch: func,
   history: shape({
-    push: func.isRequired,
-  }).isRequired,
-};
+    push: func,
+  }),
+}.isRequired;
 
 export default connect()(Login);

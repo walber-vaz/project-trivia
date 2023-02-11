@@ -1,27 +1,30 @@
-import { arrayOf, bool, shape, string } from 'prop-types';
+import { arrayOf, bool, shape, string, func } from 'prop-types';
 import React, { Component } from 'react';
 
-class Questions extends Component {
+class Question extends Component {
   questionsShuffle = (arr) => {
     const magic = 0.5;
     return arr.sort(() => Math.random() - magic);
   };
 
+  // handleClick = ({ target }) => {
+  //   console.log(target);
+  // };
+
   correctAndIncorrectQuestions = () => {
     const { question } = this.props;
     if (question) {
-      console.log(question);
       const correct = (
         <button
           type="button"
           data-testid="correct-answer"
-          key={ question.correct_answer }
+          key={ question.correta }
         >
-          { question.correct_answer }
+          { question.correta }
         </button>
       );
 
-      const incorrect = question.incorrect_answers.map((answer, index) => (
+      const incorrect = question.incorretas.map((answer, index) => (
         <button
           type="button"
           data-testid={ `wrong-answer-${index}` }
@@ -53,10 +56,10 @@ class Questions extends Component {
   }
 }
 
-Questions.propTypes = {
+Question.propTypes = {
   question: shape({
-    correct_answer: string.isRequired,
-    incorrect_answers: arrayOf(string).isRequired,
+    correta: string.isRequired,
+    incorretas: arrayOf(string).isRequired,
   }).isRequired,
   active: bool.isRequired,
   categoria: string.isRequired,
@@ -64,4 +67,4 @@ Questions.propTypes = {
   onClick: func.isRequired,
 };
 
-export default Questions;
+export default Question;

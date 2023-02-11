@@ -4,33 +4,28 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { name, img } = this.props;
+    const { login } = this.props;
+    const score = JSON.parse(localStorage.getItem('player') ?? '{}').score ?? 0;
     return (
       <header>
         <img
           data-testid="header-profile-picture"
-          src={ img }
-          alt={ name }
+          src={ login.img }
+          alt={ login.name }
         />
-        <p data-testid="header-player-name">
-          { name }
-        </p>
-        <p data-testid="header-score">
-          0
-        </p>
+        <p data-testid="header-player-name">{login.name}</p>
+        <p data-testid="header-score">{score}</p>
       </header>
     );
   }
 }
-
 Header.propTypes = {
-  name: PropTypes.string.isRequired,
-  img: PropTypes.string.isRequired,
-};
-
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  login: PropTypes.shape(),
+}.isRequired;
 const mapStateToProps = (state) => ({
-  img: state.login.img,
-  name: state.login.name,
+  login: state.login,
 });
-
 export default connect(mapStateToProps)(Header);

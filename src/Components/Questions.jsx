@@ -16,11 +16,6 @@ class Questions extends Component {
     }, twoSeconds);
   }
 
-  questionsShuffle = (arr) => {
-    const magic = 0.5;
-    return arr.sort(() => Math.random() - magic);
-  };
-
   handleClick = () => {
     const { active, questions } = this.state;
     if (active < questions.length) {
@@ -48,15 +43,18 @@ class Questions extends Component {
 
   render() {
     const { questions, active } = this.state;
-    const quests = () => questions.map(
-      ({ category, question, correct_answer: correta, incorrect_answers: incorreta }) => {
-        const combineAnswers = [correta, ...incorreta];
-        const answers = this.questionsShuffle(combineAnswers);
+    const quests = questions.map(
+      ({
+        category, question,
+        correct_answer: correta,
+        incorrect_answers: incorretas,
+      }) => {
+        const answers = [correta, ...incorretas];
         return {
           category,
           question,
           correta,
-          incorreta,
+          incorretas,
           answers,
         };
       },
@@ -64,15 +62,15 @@ class Questions extends Component {
 
     return (
       <div>
-        {quests().map((quest, index) => (
+        {quests.map((quest, index) => (
           <div key={ quest.question }>
             {questions.length && (
               <Question
                 categoria={ quest.category }
                 pergunta={ quest.question }
                 respostas={ quest.answers }
-                correta={ quest.correct_answer }
-                incorreta={ quest.incorrect_answers }
+                correta={ quest.correta }
+                incorreta={ quest.incorretas }
                 active={ active === index }
                 onClick={ this.handleClick }
                 answerCorrect="correct_answer"

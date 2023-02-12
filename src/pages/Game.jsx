@@ -20,21 +20,20 @@ class Game extends Component {
     return array.sort(() => Math.random() - five);
   };
 
-  handleClickNext = () => {
-    const { assertionsCurrent, questions } = this.state;
-    const maxAssertions = 4;
-    if (assertionsCurrent < maxAssertions) {
-      this.setState((prev) => ({
-        assertionsCurrent: prev.assertionsCurrent < maxAssertions
-          ? (prev.assertionsCurrent + 1) : maxAssertions,
-      }), () => {
-        const { assertionsCurrent: current } = this.state;
-        this.shuffeAllQuestion(questions[current]);
-      });
-    } else {
-      const { history } = this.props;
-      history.push('/feedback');
-    }
+  shuffeAllQuestion = (questions) => {
+    const correct = {
+      name: questions.correct_answer,
+      isCorrect: true,
+      class: 'green-border',
+    };
+    const incorrect = questions.incorrect_answers.map((answer, index) => ({
+      name: answer,
+      isCorrect: false,
+      class: 'red-border',
+      index,
+    }));
+    const allAnswers = [correct, ...incorrect];
+    this.setState({ questionsShuffled: this.shuffled(allAnswers) });
   };
 
   fetchQuest = async () => {
@@ -54,20 +53,21 @@ class Game extends Component {
     });
   };
 
-  shuffeAllQuestion = (questions) => {
-    const correct = {
-      name: questions.correct_answer,
-      isCorrect: true,
-      class: 'green-border',
-    };
-    const incorrect = questions.incorrect_answers.map((answer, index) => ({
-      name: answer,
-      isCorrect: false,
-      class: 'red-border',
-      index,
-    }));
-    const allAnswers = [correct, ...incorrect];
-    this.setState({ questionsShuffled: this.shuffled(allAnswers) });
+  handleClickNext = () => {
+    const { assertionsCurrent, questions } = this.state;
+    const maxAssertions = 4;
+    if (assertionsCurrent < maxAssertions) {
+      this.setState((prev) => ({
+        assertionsCurrent: prev.assertionsCurrent < maxAssertions
+          ? (prev.assertionsCurrent + 1) : maxAssertions,
+      }), () => {
+        const { assertionsCurrent: current } = this.state;
+        this.shuffeAllQuestion(questions[current]);
+      });
+    } else {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
   };
 
   render() {

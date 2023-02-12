@@ -3,11 +3,25 @@ import { connect } from 'react-redux';
 import { shape } from 'prop-types';
 
 class Feedback extends Component {
+  state = {
+    msg: '',
+  };
+
+  componentDidMount() {
+    const { player } = this.props;
+    const tree = 3;
+    if (player.assertions < tree) {
+      return this.setState({ msg: 'Could be better...' });
+    }
+    return this.setState({ msg: 'Well Done!' });
+  }
+
   render() {
     const { player } = this.props;
+    const { msg } = this.state;
     return (
       <div>
-        <h1 data-testid="feedback-text">Feedback</h1>
+        <h1>Feedback</h1>
         <img
           src={ player.gravatarEmail }
           alt={ player.name }
@@ -15,6 +29,7 @@ class Feedback extends Component {
         />
         <p data-testid="header-player-name">{ player.name }</p>
         <p data-testid="header-score">{ player.score }</p>
+        <p data-testid="feedback-text">{msg}</p>
       </div>
     );
   }

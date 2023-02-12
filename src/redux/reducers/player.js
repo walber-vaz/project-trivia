@@ -19,7 +19,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       score: Number(payload.score) + Number(state.score),
-      assertions: payload.assertions,
+      assertions: Number(payload.assertions) + Number(state.assertions),
     };
   default:
     return state;

@@ -7,11 +7,35 @@ import fetchApi from '../utils/fetchApi';
 class Game extends Component {
   state = {
     questions: [],
+    assertionsCurrent: 0,
+    questionsShuffled: [],
   };
 
   componentDidMount() {
     this.fetchQuest();
   }
+
+  shuffled = (array) => {
+    const five = 0.5;
+    return array.sort(() => Math.random() - five);
+  };
+
+  handleClickNext = () => {
+    const { assertionsCurrent, questions } = this.state;
+    const maxAssertions = 4;
+    if (assertionsCurrent < maxAssertions) {
+      this.setState((prev) => ({
+        assertionsCurrent: prev.assertionsCurrent < maxAssertions
+          ? (prev.assertionsCurrent + 1) : maxAssertions,
+      }), () => {
+        const { assertionsCurrent: current } = this.state;
+        this.shuffeAllQuestion(questions[current]);
+      });
+    } else {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
+  };
 
   fetchQuest = async () => {
     const { history } = this.props;
@@ -24,16 +48,39 @@ class Game extends Component {
       localStorage.removeItem('token');
       history.push('/');
     }
-    this.setState({ questions: response.results });
+    this.setState({ questions: response.results }, () => {
+      const { questions, assertionsCurrent } = this.state;
+      this.shuffeAllQuestion(questions[assertionsCurrent]);
+    });
+  };
+
+  shuffeAllQuestion = (questions) => {
+    const correct = {
+      name: questions.correct_answer,
+      isCorrect: true,
+      class: 'green-border',
+    };
+    const incorrect = questions.incorrect_answers.map((answer, index) => ({
+      name: answer,
+      isCorrect: false,
+      class: 'red-border',
+      index,
+    }));
+    const allAnswers = [correct, ...incorrect];
+    this.setState({ questionsShuffled: this.shuffled(allAnswers) });
   };
 
   render() {
-    const { questions } = this.state;
+    const { questions, assertionsCurrent, questionsShuffled } = this.state;
     return (
       <div>
         <Header />
-        {questions.length > 0
-          ? <Questions questions={ questions[0] } />
+        {questions.length > 0 ? <Questions
+          questions={ questions[assertionsCurrent] }
+          key={ assertionsCurrent }
+          questionsShuffled={ questionsShuffled }
+          handleClickNext={ this.handleClickNext }
+        />
           : <p>Loading...</p>}
       </div>
     );

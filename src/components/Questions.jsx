@@ -7,17 +7,12 @@ import '../App.css';
 
 class Questions extends Component {
   state = {
-    questionsShuffled: [],
     isSeletedQuestion: false,
     isTimeOut: false,
     score: 0,
     timeQuestion: 30,
     assertions: 0,
   };
-
-  componentDidMount() {
-    this.shuffeAllQuestion();
-  }
 
   calculatedScore = (value, time) => {
     const points = 10;
@@ -34,11 +29,6 @@ class Questions extends Component {
     }
   };
 
-  shuffled = (array) => {
-    const five = 0.5;
-    return array.sort(() => Math.random() - five);
-  };
-
   handleClick = (value) => {
     const { dispatch, questions } = this.props;
     this.setState((prev) => ({
@@ -53,31 +43,14 @@ class Questions extends Component {
     });
   };
 
-  shuffeAllQuestion = () => {
-    const { questions } = this.props;
-    const correct = {
-      name: questions.correct_answer,
-      isCorrect: true,
-      class: 'green-border',
-    };
-    const incorrect = questions.incorrect_answers.map((answer, index) => ({
-      name: answer,
-      isCorrect: false,
-      class: 'red-border',
-      index,
-    }));
-    const allAnswers = [correct, ...incorrect];
-    this.setState({ questionsShuffled: this.shuffled(allAnswers) });
-  };
-
   handleTimer = (time) => {
     if (time === 0) return this.setState({ isTimeOut: true });
     return this.setState({ timeQuestion: time });
   };
 
   render() {
-    const { questions } = this.props;
-    const { questionsShuffled, isSeletedQuestion, isTimeOut } = this.state;
+    const { questions, questionsShuffled, handleClickNext } = this.props;
+    const { isSeletedQuestion, isTimeOut } = this.state;
     const finalQuestions = isSeletedQuestion || isTimeOut;
     return (
       <div>
@@ -108,7 +81,7 @@ class Questions extends Component {
               <button
                 type="button"
                 data-testid="btn-next"
-                onClick={ () => {} }
+                onClick={ handleClickNext }
               >
                 Next
               </button>

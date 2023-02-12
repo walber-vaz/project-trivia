@@ -12,7 +12,10 @@ class Game extends Component {
   };
 
   componentDidMount() {
-    this.fetchQuest();
+    const timeOutFetch = 1500;
+    setTimeout(() => {
+      this.fetchQuest();
+    }, timeOutFetch);
   }
 
   shuffled = (array) => {

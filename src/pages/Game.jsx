@@ -12,7 +12,7 @@ class Game extends Component {
   };
 
   componentDidMount() {
-    const timeOutFetch = 1500;
+    const timeOutFetch = 2000;
     setTimeout(() => {
       this.fetchQuest();
     }, timeOutFetch);

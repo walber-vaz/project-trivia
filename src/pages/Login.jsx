@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchLogin } from '../redux/actions/login';
+import { fetchLogin } from '../redux/actions/player';
 
 class Login extends Component {
   state = {
@@ -31,9 +31,8 @@ class Login extends Component {
 
   handleClick = () => {
     const { name, email } = this.state;
-    const { dispatch, history } = this.props;
-    dispatch(fetchLogin(name, email));
-    history.push('/game');
+    const { dispatch, history: { push } } = this.props;
+    dispatch(fetchLogin(name, email, push));
   };
 
   render() {

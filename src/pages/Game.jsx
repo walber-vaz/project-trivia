@@ -1,17 +1,41 @@
 import React, { Component } from 'react';
 import { func, shape } from 'prop-types';
-import Header from '../Components/Header';
-import Questions from '../Components/Questions';
+import Header from '../components/Header';
+import Questions from '../components/Questions';
+import fetchApi from '../utils/fetchApi';
 
 class Game extends Component {
-  render() {
+  state = {
+    questions: [],
+  };
+
+  componentDidMount() {
+    this.fetchQuest();
+  }
+
+  fetchQuest = async () => {
     const { history } = this.props;
+    const tkn = localStorage.getItem('token');
+    const response = await fetchApi(
+      `https://opentdb.com/api.php?amount=5&token=${tkn}`,
+    );
+    const three = 3;
+    if (response.response_code === three) {
+      localStorage.removeItem('token');
+      history.push('/');
+    }
+    this.setState({ questions: response.results });
+  };
+
+  render() {
+    const { questions } = this.state;
     return (
-      <>
-        <div>Game</div>
+      <div>
         <Header />
-        <Questions history={ history } />
-      </>
+        {questions.length > 0
+          ? <Questions questions={ questions[0] } />
+          : <p>Loading...</p>}
+      </div>
     );
   }
 }

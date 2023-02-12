@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { login } = this.props;
-    const score = JSON.parse(localStorage.getItem('player') ?? '{}').score ?? 0;
+    const { player } = this.props;
     return (
       <header>
         <img
           data-testid="header-profile-picture"
-          src={ login.img }
-          alt={ login.name }
+          src={ player.gravatarEmail }
+          alt={ player.name }
         />
-        <p data-testid="header-player-name">{login.name}</p>
-        <p data-testid="header-score">{score}</p>
+        <p data-testid="header-player-name">{player.name}</p>
+        <p data-testid="header-score">{player.score}</p>
       </header>
     );
   }
@@ -26,6 +25,6 @@ Header.propTypes = {
   login: PropTypes.shape(),
 }.isRequired;
 const mapStateToProps = (state) => ({
-  login: state.login,
+  player: state.player,
 });
 export default connect(mapStateToProps)(Header);

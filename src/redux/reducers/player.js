@@ -1,20 +1,29 @@
-import { LOGIN } from '../actions/actionTypes';
+import { LOGIN, SAVE_SCORE } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '',
   assertions: 0,
-  score: 0,
   gravatarEmail: '',
+  score: 0,
 };
 
-export const player = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
+const player = (state = INITIAL_STATE, { type, payload }) => {
+  switch (type) {
   case LOGIN:
     return {
       ...state,
-      name: action.payload,
+      name: payload.name,
+      gravatarEmail: payload.email,
+    };
+  case SAVE_SCORE:
+    return {
+      ...state,
+      score: payload.score,
+      assertions: payload.assertions,
     };
   default:
     return state;
   }
 };
+
+export default player;

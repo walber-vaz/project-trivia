@@ -7,6 +7,7 @@ import Game from './pages/Game';
 import logo from './trivia.png';
 import Feedback from './pages/Feedback';
 import './App.css';
+import Ranking from './pages/Ranking';
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
             <Route exact path="/settings" component={ Settings } />
             <Route exact path="/game" component={ Game } />
             <Route exact path="/feedback" component={ Feedback } />
+            <Route exact path="/ranking" component={ Ranking } />
           </Switch>
         </header>
       </div>

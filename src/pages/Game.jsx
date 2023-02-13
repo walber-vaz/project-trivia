@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { func, shape } from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
 import fetchApi from '../utils/fetchApi';
@@ -96,4 +97,8 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-export default Game;
+const mapStateToProps = (state) => ({
+  player: state.player,
+});
+
+export default connect(mapStateToProps)(Game);

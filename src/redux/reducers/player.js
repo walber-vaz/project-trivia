@@ -14,6 +14,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       name: payload.name,
       gravatarEmail: payload.email,
+      score: 0,
     };
   case SAVE_SCORE:
     return {

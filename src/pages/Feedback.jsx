@@ -16,6 +16,16 @@ class Feedback extends Component {
     return this.setState({ msg: 'Well Done!' });
   }
 
+  handleClickAgain = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
+  handleClickRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  };
+
   render() {
     const { player } = this.props;
     const { msg } = this.state;
@@ -27,9 +37,29 @@ class Feedback extends Component {
           alt={ player.name }
           data-testid="header-profile-picture"
         />
-        <p data-testid="header-player-name">{ player.name }</p>
-        <p data-testid="header-score">{ player.score }</p>
-        <p data-testid="feedback-text">{msg}</p>
+        <p data-testid="header-player-name">{player.name}</p>
+        <p data-testid="header-score">{player.score}</p>
+        <div>
+          <h2>Resultado Final</h2>
+          <p data-testid="feedback-text">{msg}</p>
+          <p data-testid="feedback-total-score">{player.score}</p>
+          <p data-testid="feedback-total-question">{player.assertions}</p>
+        </div>
+        {/* Cria botão para pessoa jogar novamente  */}
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.handleClickAgain }
+        >
+          Play Again
+        </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ this.handleClickRanking }
+        >
+          Ranking
+        </button>
       </div>
     );
   }

@@ -10,11 +10,20 @@ class Feedback extends Component {
   componentDidMount() {
     const { player } = this.props;
     const tree = 3;
+    this.savePlayer();
     if (player.assertions < tree) {
       return this.setState({ msg: 'Could be better...' });
     }
     return this.setState({ msg: 'Well Done!' });
   }
+
+  savePlayer = () => {
+    const { player } = this.props;
+    const rankingList = JSON.parse(localStorage.getItem('ranking')) || [];
+    rankingList.push(player);
+    localStorage.setItem('ranking', JSON.stringify(rankingList));
+    console.log(rankingList);
+  };
 
   handleClickAgain = () => {
     const { history } = this.props;

@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import App from "../App";
 import renderWithRouterAndRedux from "./helpers/renderWithRouterAndRedux";
 
-const tokenPlay =  {token: 'token-1234'};;
+const tokenPlay =  {token: 'token-1234'};
 const nameDataTestId = 'input-player-name';
 const emailDataTestId = 'input-gravatar-email';
 const btnPlayDataTestId = 'btn-play';
@@ -97,7 +97,7 @@ describe('1 - Teste Pagina <App />', () => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(history.location.pathname).toBe('/game');
       expect(screen.getByText('Game')).toBeInTheDocument();
-      expect(store.getState().login.name).toBe(nameValid);
+      expect(store.getState().player.name).toBe(nameValid);
     });
   });
 

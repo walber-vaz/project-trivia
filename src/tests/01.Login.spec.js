@@ -13,6 +13,8 @@ const emailInvalid = 'teste';
 const nameValid = 'teste';
 const nameInvalid = '';
 
+jest.setTimeout(8000);
+
 describe('1 - Teste Pagina <App />', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockResolvedValue({

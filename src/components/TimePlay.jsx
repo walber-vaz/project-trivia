@@ -33,7 +33,7 @@ class TimePlay extends Component {
     this.clearTimer();
     return (
       <div>
-        <p>{timer}</p>
+        <p data-testid="time-play">{timer}</p>
       </div>
     );
   }

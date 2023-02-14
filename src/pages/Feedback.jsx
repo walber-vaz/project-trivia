@@ -22,7 +22,6 @@ class Feedback extends Component {
     const rankingList = JSON.parse(localStorage.getItem('ranking')) || [];
     rankingList.push(player);
     localStorage.setItem('ranking', JSON.stringify(rankingList));
-    console.log(rankingList);
   };
 
   handleClickAgain = () => {

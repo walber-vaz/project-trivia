@@ -12,11 +12,8 @@ class Game extends Component {
     questionsShuffled: [],
   };
 
-  componentDidMount() {
-    const timeOutFetch = 2000;
-    setTimeout(() => {
-      this.fetchQuest();
-    }, timeOutFetch);
+  async componentDidMount() {
+    this.fetchQuest();
   }
 
   shuffled = (array) => {
